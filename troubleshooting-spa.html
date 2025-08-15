@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Troubleshooting Principles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Harmony -->
+    <!-- Application Structure Plan: The application is structured as a single-page scrolling experience with a fixed navigation header. It's divided into three logical, thematic sections: 1) 'The Core Principles' introducing the foundational pillars, 2) 'The Troubleshooter's Mindset' detailing the philosophies and mantra with an interactive diagram, and 3) 'Attitude in Action' covering the practical application of the right attitude (overcoming challenges and collaboration). This structure guides the user from high-level concepts to specific, actionable advice, making the content more digestible and memorable than a linear slide format. The interactive cards and diagrams encourage exploration and active learning. -->
+    <!-- Visualization & Content Choices: 
+        - Core Principles: Report Info -> 3 Pillars of Troubleshooting. Goal -> Inform. Viz/Presentation -> Interactive Cards with hover effects. Interaction -> User hovers to reveal more details. Justification -> Encourages engagement with foundational concepts. Library/Method -> HTML/CSS/Tailwind.
+        - Troubleshooter's Mindset: Report Info -> Philosophy & Mantra. Goal -> Organize/Inform. Viz/Presentation -> A central interactive diagram (HTML/CSS canvas-like structure) where clicking a philosophy reveals its details and connects to the central mantra. Interaction -> Click to reveal text. Justification -> Visually connects the guiding philosophies to the central, actionable mantra, reinforcing their relationship. Library/Method -> HTML/CSS/JS.
+        - Attitude in Action: Report Info -> Overcoming challenges & collaboration. Goal -> Compare/Inform. Viz/Presentation -> A two-column grid layout. One column for 'Internal Challenges' (Panic, Anger, etc.) and one for 'External Actions' (Teamwork, RTFM). Interaction -> Clickable cards that flip or expand to show details. Justification -> Separates internal mental states from external collaborative actions, clarifying two key aspects of the troubleshooter's attitude. Library/Method -> HTML/CSS/JS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8; /* Warm Neutral */
+            color: #4A4A4A;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #D35400; /* Subtle Accent */
+            border-bottom-color: #D35400;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border: 1px solid #EAEAEA;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .interactive-diagram-node {
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .interactive-diagram-node.active {
+            background-color: #D35400 !important;
+            color: #FFFFFF !important;
+        }
+        .attitude-card .card-back {
+            display: none;
+        }
+        .attitude-card.is-flipped .card-front {
+            display: none;
+        }
+        .attitude-card.is-flipped .card-back {
+            display: block;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Troubleshooting Principles</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#principles" class="nav-link font-medium text-gray-600 pb-1">Core Principles</a>
+                <a href="#mindset" class="nav-link font-medium text-gray-600 pb-1">The Mindset</a>
+                <a href="#action" class="nav-link font-medium text-gray-600 pb-1">Attitude in Action</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#principles" class="block py-2 text-gray-600">Core Principles</a>
+            <a href="#mindset" class="block py-2 text-gray-600">The Mindset</a>
+            <a href="#action" class="block py-2 text-gray-600">Attitude in Action</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: Core Principles -->
+        <section id="principles" class="mb-24 text-center">
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">The Three Pillars of Troubleshooting</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-12">Effective troubleshooting isn't magic; it's a systematic approach built on three foundational pillars. Mastering these turns complex problems into manageable challenges.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card p-8 rounded-xl">
+                    <div class="text-5xl mb-4">🧠</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">1. Adopt the Right Attitude</h3>
+                    <p class="text-gray-600">Your mental state is the starting line. A calm, curious, and persistent mindset is paramount to navigating frustration and complexity.</p>
+                </div>
+                <div class="card p-8 rounded-xl">
+                    <div class="text-5xl mb-4">🛠️</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">2. Acquire Technical Knowledge</h3>
+                    <p class="text-gray-600">You don't need to be an expert, but you must understand the system's structure and basics to form a 'Mental Model' of how it works.</p>
+                </div>
+                <div class="card p-8 rounded-xl">
+                    <div class="text-5xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">3. Follow a Structured Process</h3>
+                    <p class="text-gray-600">A consistent, logical process prevents wasted effort. It guides your actions, ensuring each step moves you closer to the solution.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Troubleshooter's Mindset -->
+        <section id="mindset" class="mb-24">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">The Troubleshooter's Mindset</h2>
+            <p class="max-w-3xl mx-auto text-lg text-center text-gray-600 mb-12">This interactive diagram shows how the core philosophies connect to the central mantra. Click on a philosophy to see its details and how it guides your actions.</p>
+            <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-center gap-8 min-h-[500px]">
+                <!-- Interactive Diagram -->
+                <div class="w-full lg:w-1/2 flex items-center justify-center relative h-96">
+                    <div id="node-center" class="absolute z-10 bg-gray-700 text-white rounded-full w-48 h-48 flex flex-col items-center justify-center text-center p-4 shadow-2xl">
+                        <h4 class="font-bold">The Mantra</h4>
+                        <p class="text-sm">"How can I narrow it down just one more time?"</p>
+                    </div>
+                    <div id="node-1" class="interactive-diagram-node absolute bg-orange-100 text-orange-800 rounded-full w-36 h-36 flex items-center justify-center text-center p-2 shadow-lg" style="transform: translate(-120px, -90px);">Relax & Trust the Process</div>
+                    <div id="node-2" class="interactive-diagram-node absolute bg-blue-100 text-blue-800 rounded-full w-36 h-36 flex items-center justify-center text-center p-2 shadow-lg" style="transform: translate(120px, -90px);">Measure More, Think Less</div>
+                    <div id="node-3" class="interactive-diagram-node absolute bg-green-100 text-green-800 rounded-full w-36 h-36 flex items-center justify-center text-center p-2 shadow-lg" style="transform: translate(0px, 120px);">Narrow It Down</div>
+                </div>
+                <!-- Details Pane -->
+                <div id="details-pane" class="w-full lg:w-1/2 p-6 bg-gray-50 rounded-lg min-h-[200px] flex items-center">
+                    <div id="details-content">
+                        <h3 id="details-title" class="text-2xl font-semibold mb-2 text-gray-800">Select a Philosophy</h3>
+                        <p id="details-text" class="text-gray-600">Click one of the colored circles to learn about a core problem-solving philosophy and how it connects to the central mantra of narrowing the problem scope.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Attitude in Action -->
+        <section id="action" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-4 text-gray-800">Attitude in Action</h2>
+            <p class="max-w-3xl mx-auto text-lg text-center text-gray-600 mb-12">A successful troubleshooter manages their internal state while effectively engaging with external resources. Explore the cards below to see how to handle challenges and leverage collaboration.</p>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Column 1: Overcoming Challenges -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-gray-700">Internal Challenges: Master Your Mind</h3>
+                    <div class="space-y-6">
+                        <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="panic">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">😰</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Don't Panic</h4>
+                                    <p class="text-sm text-gray-500">Click to see how to handle it</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-amber-50">
+                                <h4 class="font-bold text-lg text-amber-800">Handling Panic</h4>
+                                <p class="text-amber-700">When pressure mounts, focus on the mantra. Take a break, ask for help, or try a different narrowing tactic. The goal is to shift from worrying about consequences to taking a small, logical next step.</p>
+                            </div>
+                        </div>
+                        <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="anger">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">😡</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Don't Get Mad</h4>
+                                    <p class="text-sm text-gray-500">Click to see how to handle it</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-red-50">
+                                <h4 class="font-bold text-lg text-red-800">Handling Anger</h4>
+                                <p class="text-red-700">Frustration impairs judgment and can lead to mistakes or damage. If you feel angry, step away. A short walk can reset your perspective and prevent costly errors.</p>
+                            </div>
+                        </div>
+                         <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="blocks">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">🧱</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Avoid Mental Blocks</h4>
+                                    <p class="text-sm text-gray-500">Click to see how to handle it</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-gray-100">
+                                <h4 class="font-bold text-lg text-gray-800">Handling Mental Blocks</h4>
+                                <p class="text-gray-700">Don't tell yourself you "can't" troubleshoot something. The process is universal. Trust your ability to apply the steps to any technology, even unfamiliar ones.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Column 2: Collaboration & Resources -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-gray-700">External Actions: Leverage Your World</h3>
+                    <div class="space-y-6">
+                        <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="rtfm">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">📖</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">RTFM</h4>
+                                    <p class="text-sm text-gray-500">Click to see why it's key</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-sky-50">
+                                <h4 class="font-bold text-lg text-sky-800">Read The Manual</h4>
+                                <p class="text-sky-700">Consulting documentation first respects your team's time. It solves simple issues quickly and ensures that when you do ask for help, it's for a genuinely complex problem.</p>
+                            </div>
+                        </div>
+                        <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="help">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">🤝</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Ask For & Give Help</h4>
+                                    <p class="text-sm text-gray-500">Click to see why it's key</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-teal-50">
+                                <h4 class="font-bold text-lg text-teal-800">Foster Collaboration</h4>
+                                <p class="text-teal-700">No one knows everything. A quick question can save hours of work. Be generous with your own knowledge to build a culture where help is easily shared.</p>
+                            </div>
+                        </div>
+                        <div class="attitude-card card rounded-xl overflow-hidden cursor-pointer" data-content-key="teamwork">
+                            <div class="card-front p-6 flex items-center">
+                                <span class="text-3xl mr-4">👥</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Practice Teamwork</h4>
+                                    <p class="text-sm text-gray-500">Click to see why it's key</p>
+                                </div>
+                            </div>
+                            <div class="card-back p-6 bg-indigo-50">
+                                <h4 class="font-bold text-lg text-indigo-800">Unite to Solve</h4>
+                                <p class="text-indigo-700">Complex problems often involve multiple systems. Work directly with other experts to diagnose issues in real-time. This avoids "finger-pointing" and leads to faster resolutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t mt-16">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>&copy; 2025 Interactive Learning Guide. Content based on "Troubleshooting: Just the Facts".</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Active nav link scrolling
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.onscroll = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // Interactive Diagram Logic
+            const nodes = document.querySelectorAll('.interactive-diagram-node');
+            const detailsTitle = document.getElementById('details-title');
+            const detailsText = document.getElementById('details-text');
+            const diagramContent = {
+                "node-1": {
+                    title: "Relax & Trust the Process",
+                    text: "Confidence in a structured process reduces panic and clears your mind. When you trust the steps, you can focus on executing them instead of worrying about the outcome. This calm approach makes it easier to ask the central question: 'How can I narrow it down?'"
+                },
+                "node-2": {
+                    title: "Measure More, Think Less",
+                    text: "Rely on data from diagnostic tests, not on complex, unaided speculation. Each measurement provides a fact that can confirm or deny a hypothesis. This directly supports the mantra by giving you concrete ways to eliminate possibilities and narrow the problem."
+                },
+                "node-3": {
+                    title: "Focus on Narrowing It Down",
+                    text: "This is the core philosophy. Don't try to guess the final fix. Instead, focus on the immediate goal of making the problem smaller. Each time you rule out a part of the system, you are one step closer to the root cause. This philosophy *is* the mantra in action."
+                }
+            };
+
+            nodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    nodes.forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+                    const content = diagramContent[node.id];
+                    detailsTitle.textContent = content.title;
+                    detailsText.textContent = content.text;
+                });
+            });
+
+            // Attitude Card Flip Logic
+            const attitudeCards = document.querySelectorAll('.attitude-card');
+            attitudeCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('is-flipped');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
